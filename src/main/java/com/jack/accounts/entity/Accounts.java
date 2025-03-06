@@ -8,9 +8,8 @@ import lombok.*;
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@AllArgsConstructor
 public class Accounts extends BaseEntity {
   @Column(name = "customer_id")
   private Long customerId;

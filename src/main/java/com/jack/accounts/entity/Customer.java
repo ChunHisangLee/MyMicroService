@@ -6,10 +6,8 @@ import lombok.*;
 @Entity
 @Getter
 @Setter
-@ToString
-@AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@AllArgsConstructor
 public class Customer extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
