@@ -14,13 +14,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(
-    path = "/api",
-    produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(path = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 @Validated
 public class AccountsController {
-  private AccountsService accountsService;
+
+  private final AccountsService accountsService;
 
   @PostMapping("/create")
   public ResponseEntity<ResponseDto> createAccount(@Valid @RequestBody CustomerDto customerDto) {
@@ -32,10 +31,10 @@ public class AccountsController {
   @GetMapping("/fetch")
   public ResponseEntity<CustomerDto> fetchAccountDetails(
       @RequestParam
-          @Pattern(regexp = "^$|[0-9]{10}", message = AccountsConstants.MOBILE_NUMBER_ERROR)
+          @Pattern(regexp = "^[0-9]{10}$", message = AccountsConstants.MOBILE_NUMBER_ERROR)
           String mobileNumber) {
     CustomerDto customerDto = accountsService.fetchAccount(mobileNumber);
-    return ResponseEntity.status(HttpStatus.OK).body(customerDto);
+    return ResponseEntity.ok(customerDto);
   }
 
   @PutMapping("/update")
@@ -44,8 +43,8 @@ public class AccountsController {
     boolean isUpdated = accountsService.updateAccount(customerDto);
 
     if (isUpdated) {
-      return ResponseEntity.status(HttpStatus.OK)
-          .body(new ResponseDto(AccountsConstants.STATUS_200, AccountsConstants.STATUS_200));
+      return ResponseEntity.ok(
+          new ResponseDto(AccountsConstants.STATUS_200, AccountsConstants.MESSAGE_200));
     } else {
       return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
           .body(
@@ -56,18 +55,17 @@ public class AccountsController {
   @DeleteMapping("/delete")
   public ResponseEntity<ResponseDto> deleteAccountDetails(
       @RequestParam
-          @Pattern(regexp = "^$|[0-9]{10}", message = AccountsConstants.MOBILE_NUMBER_ERROR)
+          @Pattern(regexp = "^[0-9]{10}$", message = AccountsConstants.MOBILE_NUMBER_ERROR)
           String mobileNumber) {
     boolean isDeleted = accountsService.deleteAccount(mobileNumber);
 
     if (isDeleted) {
-      return ResponseEntity.status(HttpStatus.OK)
-          .body(new ResponseDto(AccountsConstants.STATUS_200, AccountsConstants.MESSAGE_200));
+      return ResponseEntity.ok(
+          new ResponseDto(AccountsConstants.STATUS_200, AccountsConstants.MESSAGE_200));
     } else {
       return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
           .body(
-              new ResponseDto(
-                  AccountsConstants.MESSAGE_417_DELETE, AccountsConstants.MESSAGE_417_DELETE));
+              new ResponseDto(AccountsConstants.STATUS_417, AccountsConstants.MESSAGE_417_DELETE));
     }
   }
 }
