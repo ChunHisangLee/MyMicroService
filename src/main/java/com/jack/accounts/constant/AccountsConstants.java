@@ -14,6 +14,8 @@ public class AccountsConstants {
       "Update operation failed. Please try again or contact Dev team";
   public static final String MESSAGE_417_DELETE =
       "Delete operation failed. Please try again or contact Dev team";
+  public static final String STATUS_500 = "500";
+  public static final String MESSAGE_500 = "HTTP Status Internal Server Error";
   public static final String MOBILE_NUMBER_ERROR = "Mobile number must be 10 digits";
   public static final String ACCOUNT_MS = "ACCOUNTS_MS";
 }
